@@ -3,6 +3,13 @@ const { mainPageMarkup, submitSuccessMarkup } = require("./views");
 const todos = [];
 
 const postForm = (req, res) => {
+  const { item } = req.body;
+  todos.push(item);
+  console.log(todos);
+
+  res.send(submitSuccessMarkup);
+};
+/* const postForm = (req, res) => {
   let body = "";
 
   req.on("data", (chunk) => {
@@ -15,7 +22,7 @@ const postForm = (req, res) => {
 
     res.send(submitSuccessMarkup);
   });
-};
+}; */
 
 const getMainPage = (req, res) => {
   res.send(mainPageMarkup);
