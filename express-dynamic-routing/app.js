@@ -2,10 +2,22 @@ const express = require("express");
 const path = require("path");
 const routes = require("./routes");
 const { setNoCacheHeaders } = require("./middleware");
+const cors = require("cors");
 
 const { PORT = 3000, BASE_PATH } = process.env;
+// (1) Declare an array of origins to allow access to.
+const allowedOrigins = [
+  "https://my-website.com",
+  "http://my-webiste.com",
+  "http://localhost:3000", // Use the port your frontend is served on
+];
 
 const app = express();
+
+app.use(cors()); // enable CORS for all origin
+/* // (2) Pass a configuration object to the middleware.
+app.use(cors({ origin: allowedOrigins })); */
+
 //app.set("etag", false);
 app.use(express.static(path.join(__dirname, "public")));
 
