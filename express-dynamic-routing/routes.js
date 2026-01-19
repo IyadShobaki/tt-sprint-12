@@ -2,6 +2,11 @@ const router = require("express").Router();
 const { users } = require("./db");
 const fsPromises = require("fs").promises;
 const path = require("path");
+const { getRandomQuote } = require("./utils");
+
+router.get("/quotes", (req, res) => {
+  res.send({ data: getRandomQuote() });
+});
 
 router.get("/usersfile", (req, res) => {
   fsPromises.readFile(path.join(__dirname, "usersFile.json")).then((data) => {
