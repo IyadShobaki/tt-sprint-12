@@ -3,7 +3,6 @@ const { users } = require("./db");
 const fsPromises = require("fs").promises;
 const path = require("path");
 
-// a middleware is a function takes 3 argumetns
 router.get("/usersfile", (req, res) => {
   fsPromises.readFile(path.join(__dirname, "usersFile.json")).then((data) => {
     const users = JSON.parse(data);
@@ -11,6 +10,28 @@ router.get("/usersfile", (req, res) => {
   });
 });
 
+router.get("/usersfile/:userId", (req, res) => {
+  const { userId } = req.params;
+
+  fsPromises
+    .readFile(path.join(__dirname, "usersFile.json"))
+    .then((data) => {
+      const users = JSON.parse(data);
+      const user = users.find((item) => item.userId === userId);
+
+      if (user) {
+        res.send(user);
+        return;
+      }
+
+      res.status(404).send({ message: "User not found" });
+    })
+    .catch(() => {
+      res.status(500).send({ message: "An error occurred on the server" });
+    });
+});
+
+// a middleware is a function takes 3 argumetns
 const doesUserExist = (req, res, next) => {
   if (!users[req.params.id]) {
     res.send({ error: "This user doesn't exist" });
