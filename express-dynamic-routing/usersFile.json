@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Ada Lovelace",
+    "about": "Mathematician, writer"
+  },
+  {
+    "name": "Tim Berners-Lee",
+    "about": "Inventor, scientist"
+  },
+  {
+    "name": "Alan Kay",
+    "about": "Computer scientist"
+  },
+  {
+    "name": "Alan Turing",
+    "about": "Mathematician, cryptanalyst"
+  },
+  {
+    "name": "Bret Victor",
+    "about": "Designer, engineer"
+  },
+  {
+    "name": "Douglas Engelbart",
+    "about": "Engineer, inventor"
+  }
+]

@@ -1,7 +1,15 @@
 const router = require("express").Router();
 const { users } = require("./db");
+const fsPromises = require("fs").promises;
+const path = require("path");
 
 // a middleware is a function takes 3 argumetns
+router.get("/usersfile", (req, res) => {
+  fsPromises.readFile(path.join(__dirname, "usersFile.json")).then((data) => {
+    const users = JSON.parse(data);
+    res.send(users);
+  });
+});
 
 const doesUserExist = (req, res, next) => {
   if (!users[req.params.id]) {
