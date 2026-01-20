@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const path = require("path");
 const routes = require("./routes");
 const { setNoCacheHeaders } = require("./middleware");
@@ -13,6 +14,19 @@ const allowedOrigins = [
 ];
 
 const app = express();
+
+// add methods for working with packets here - global middleware function
+app.use(express.json());
+/* express.json() allows an Express application to understand
+ and interpret data sent from clients in a JSON format. */
+app.use(express.urlencoded({ extended: true }));
+/* The express.urlencoded({ extended: true }); middleware is necessary for 
+processing data sent in different formats */
+/* The { extended: true } option allows the middleware 
+to handle more complex types of data. */
+
+// connect to the MongoDB server
+mongoose.connect("mongodb://127.0.0.1:27017/mydb");
 
 app.use(cors()); // enable CORS for all origin
 /* // (2) Pass a configuration object to the middleware.
