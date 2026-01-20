@@ -43,7 +43,7 @@ const logger = (req, res, next) => {
 };
 app.use(logger);
 app.use("/", routes);
-
+app.use("/films", require("./routes/films"));
 // app.use(handleError) // example of middleware running after the call
 
 app.listen(PORT, () => {
