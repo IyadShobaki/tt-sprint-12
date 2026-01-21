@@ -5,7 +5,7 @@ module.exports.getFilms = (req, res) => {
     // 3. Acquiring Complete Information via the populate() Method
     .populate(["director"])
     .then((films) => res.send({ data: films }))
-    .catch((err) => res.status(500).send({ message: `Error: ${err}` }));
+    .catch((err) => res.status(500).send({ message: `Error: ${err.message}` }));
 };
 
 module.exports.getFilmById = (req, res) => {
@@ -13,7 +13,7 @@ module.exports.getFilmById = (req, res) => {
     // 3. Acquiring Complete Information via the populate() Method
     .populate(["director"])
     .then((film) => res.send({ data: film }))
-    .catch((err) => res.status(500).send({ message: `Error: ${err}` }));
+    .catch((err) => res.status(500).send({ message: `Error: ${err.message}` }));
 };
 
 module.exports.createFilm = (req, res) => {
@@ -22,7 +22,7 @@ module.exports.createFilm = (req, res) => {
 
   Film.create({ title, genre, director: directorId })
     .then((film) => res.send({ data: film }))
-    .catch((err) => res.status(500).send({ message: `Error: ${err}` }));
+    .catch((err) => res.status(500).send({ message: `Error: ${err.message}` }));
 };
 
 module.exports.updateFilm = (req, res) => {
@@ -38,11 +38,11 @@ module.exports.updateFilm = (req, res) => {
     },
   )
     .then((film) => res.send({ data: film }))
-    .catch((err) => res.status(500).send({ message: `Error: ${err}` }));
+    .catch((err) => res.status(500).send({ message: `Error: ${err.message}` }));
 };
 
 module.exports.deleteFilm = (req, res) => {
   Film.findByIdAndDelete(req.params.id)
     .then((film) => res.send({ data: film }))
-    .catch((err) => res.status(500).send({ message: `Error: ${err}` }));
+    .catch((err) => res.status(500).send({ message: `Error: ${err.message}` }));
 };
