@@ -2,20 +2,25 @@ const Film = require("../models/film");
 
 module.exports.getFilms = (req, res) => {
   Film.find({})
+    // 3. Acquiring Complete Information via the populate() Method
+    .populate(["director"])
     .then((films) => res.send({ data: films }))
     .catch((err) => res.status(500).send({ message: `Error: ${err}` }));
 };
 
 module.exports.getFilmById = (req, res) => {
   Film.findById(req.params.id)
+    // 3. Acquiring Complete Information via the populate() Method
+    .populate(["director"])
     .then((film) => res.send({ data: film }))
     .catch((err) => res.status(500).send({ message: `Error: ${err}` }));
 };
 
 module.exports.createFilm = (req, res) => {
-  const { title, genre } = req.body;
+  // 2. Including the _id Field During Document Creation
+  const { title, genre, directorId } = req.body;
 
-  Film.create({ title, genre })
+  Film.create({ title, genre, director: directorId })
     .then((film) => res.send({ data: film }))
     .catch((err) => res.status(500).send({ message: `Error: ${err}` }));
 };

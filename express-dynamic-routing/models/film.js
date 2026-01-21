@@ -11,6 +11,12 @@ const filmSchema = new mongoose.Schema({
     type: String,
     enum: ["comedy", "drama", "action", "thriller", "documentary"],
   },
+  // 1. Building a Relationship Between Two Schemas
+  director: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "director",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("film", filmSchema);

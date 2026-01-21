@@ -2,17 +2,17 @@ const router = require("express").Router();
 
 const {
   getFilms,
-  createFilm,
   getFilmById,
+  createFilm,
   updateFilm,
   deleteFilm,
 } = require("../controllers/films");
 
 router.get("/", getFilms);
 
-router.post("/", createFilm);
-
 router.get("/:id", getFilmById);
+
+router.post("/", createFilm);
 
 router.patch("/:id", updateFilm);
 
