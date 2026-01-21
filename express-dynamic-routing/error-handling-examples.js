@@ -63,7 +63,7 @@ writeTextToFile("", "sometext"); // An error has occurred while writing the file
 
 // Error handling and Mongoose: the orFail() helper
 Card.find({ title: "nonexistant card" })
-  //.orFail() // throws a DocumentNotFoundError
+  //.orFail() // throws a DocumentNotFoundError  //the orFail method, which fires whenever Mongoose returns an empty object
   .orFail(() => {
     const error = new Error("No card found with that id");
     error.statusCode = 404;
@@ -76,3 +76,58 @@ Card.find({ title: "nonexistant card" })
   .catch((error) => {
     // now this does run, so we can handle the error and return an appropriate message
   });
+
+// ----------------
+
+/* If Schema.findById(id) doesn't find a document with the given id,
+ it returns an empty object, not an error! You will often want to manually
+  throw an error in these cases. We will look at this in more detail in the next question */
+
+const findUser1 = (req, res) => {
+  const { id } = req.params;
+  User.findById(id)
+    .then((user) => {
+      // similar to use onFail
+      if (!user.name) {
+        const error = new Error("user not found");
+        err.statusCode = 404;
+        throw error;
+      }
+      res.status(200).send({ data: `${user.name} is a ${user.about}` });
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        res.status(400).send({ message: "Invalid user id" });
+      } else if (err.statusCode === 404) {
+        res.status(404).send({ message: err.message });
+      } else {
+        res
+          .status(500)
+          .send({ message: err.message || "internal server error" });
+      }
+    });
+};
+
+const findUser2 = (req, res) => {
+  const { id } = req.params;
+  User.findById(id)
+    .orFail(() => {
+      const error = new Error("user not found");
+      err.statusCode = 404;
+      throw error;
+    })
+    .then((user) => {
+      res.status(200).send({ data: `${user.name} is a ${user.about}` });
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        res.status(400).send({ message: "Invalid user id" });
+      } else if (err.statusCode === 404) {
+        res.status(404).send({ message: err.message });
+      } else {
+        res
+          .status(500)
+          .send({ message: err.message || "internal server error" });
+      }
+    });
+};
